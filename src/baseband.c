@@ -25,8 +25,13 @@ static uint16_t scaled_squares[256];
 /* precalculate lookup table for envelope detection */
 static void calc_squares() {
     int i;
+#ifdef SOAPYSDR_CS8
+    for (i = -128; i < 128; i++)
+        scaled_squares[(uint8_t)i] = i * i;
+#else
     for (i = 0; i < 256; i++)
         scaled_squares[i] = (127 - i) * (127 - i);
+#endif
 }
 
 /** This will give a noisy envelope of OOK/ASK signals

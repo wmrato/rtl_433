@@ -60,6 +60,15 @@ find_package(PkgConfig)
 find_package(LibRTLSDR)
 list(APPEND SDR_LIBRARIES ${LIBRTLSDR_LIBRARIES})
 
+# TODO:make this optional
+find_package(SoapySDR "0.6" NO_MODULE)
+if(NOT SoapySDR_FOUND)
+    message(FATAL_ERROR "Soapy SDR development files not found...")
+endif()
+include_directories(${SoapySDR_INCLUDE_DIRS})
+list(APPEND SDR_LIBRARIES ${SoapySDR_LIBRARIES})
+ADD_DEFINITIONS(-DSOAPYSDR)
+
 # cmake -DCMAKE_BUILD_TYPE=Profile ..
 # CPUPROFILE=prof.out ./src/rtl_433 ...
 # pprof -text ./src/rtl_433 prof.out
